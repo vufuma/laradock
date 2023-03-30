@@ -1220,7 +1220,7 @@ services:
         JENKINS_OPTS: "--prefix=/jenkins"
       ports:
         - "${JENKINS_HOST_SLAVE_AGENT_PORT}:50000"
-        - "${JENKINS_HOST_HTTP_PORT}:8080"
+        # - "${JENKINS_HOST_HTTP_PORT}:8080"
       privileged: true
       volumes:
         - ${JENKINS_HOME}:/var/jenkins_home

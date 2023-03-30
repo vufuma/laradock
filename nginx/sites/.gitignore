@@ -1,3 +1,4 @@
 *.conf
 !default.conf
 !jenkins.conf
+.htpasswd
