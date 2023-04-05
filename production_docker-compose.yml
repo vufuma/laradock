@@ -154,9 +154,9 @@ services:
     tty: true
     environment:
       - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
-      - DOCKER_TLS_VERIFY=1
-      - DOCKER_TLS_CERTDIR=/certs
-      - DOCKER_CERT_PATH=/certs/client
+      # - DOCKER_TLS_VERIFY=0
+      # - DOCKER_TLS_CERTDIR=/certs
+      # - DOCKER_CERT_PATH=/certs/client
       - CHOKIDAR_USEPOLLING=true
     networks:
       - frontend
