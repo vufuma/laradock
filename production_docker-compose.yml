@@ -289,7 +289,7 @@ services:
       - ./data/certbot/certs/:/var/certs
       - ./certbot/letsencrypt/:/var/www/letsencrypt
     ports:
-      # - "${NGINX_HOST_HTTP_PORT}:80"
+      - "${NGINX_HOST_HTTP_PORT}:80"
       - "${NGINX_HOST_HTTPS_PORT}:443"
       # - "${VARNISH_BACKEND_PORT}:81"
     depends_on:
@@ -379,3 +379,8 @@ services:
       - EMAIL="tasos1109@gmail.com"
     networks:
       - frontend
+
+### gwas_file.py #########################################
+  gwas_file:
+    build:
+      context: ./gwas_file
