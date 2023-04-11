@@ -384,3 +384,8 @@ services:
   gwas_file:
     build:
       context: ./gwas_file
+
+### allSNPs.py #########################################
+  allsnps:
+    build:
+      context: ./allsnps
