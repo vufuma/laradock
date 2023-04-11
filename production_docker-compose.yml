@@ -383,9 +383,17 @@ services:
 ### gwas_file.py #########################################
   gwas_file:
     build:
-      context: ./gwas_file
+      context: ../scripts
+      dockerfile: Dockerfile-gwas_file
 
 ### allSNPs.py #########################################
   allsnps:
     build:
-      context: ./allsnps
+      context: ../scripts
+      dockerfile: Dockerfile-allsnps
+
+### magma.py #########################################
+  magma:
+    build:
+      context: ../scripts
+      dockerfile: Dockerfile-magma
