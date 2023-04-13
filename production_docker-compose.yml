@@ -428,8 +428,26 @@ services:
       context: ../scripts
       dockerfile: Dockerfile-get_gwas_catalog
 
-### geteQTL.R #########################################
+### geteQTL.py #########################################
   geteqtl:
     build:
       context: ../scripts
       dockerfile: Dockerfile-geteqtl
+
+### getCI.R #########################################
+  getci:
+    build:
+      context: ../scripts
+      dockerfile: Dockerfile-getci
+
+### geneMap.R #########################################
+  genemap:
+    build:
+      context: ../scripts
+      dockerfile: Dockerfile-genemap
+
+### createCircosPlot.py #########################################
+  create_circos_plot:
+    build:
+      context: ../scripts
+      dockerfile: Dockerfile-create_circos_plot
