@@ -397,3 +397,39 @@ services:
     build:
       context: ../scripts
       dockerfile: Dockerfile-magma
+
+### manhattan_filt.py #########################################
+  manhattan_filt:
+    build:
+      context: ../scripts
+      dockerfile: Dockerfile-manhattan_filt
+
+### QQSNPs_filt.py #########################################
+  qqsnps_filt:
+    build:
+      context: ../scripts
+      dockerfile: Dockerfile-qqsnps_filt
+
+### getLd.py #########################################
+  getld:
+    build:
+      context: ../scripts
+      dockerfile: Dockerfile-getld
+
+### SNPannot.R #########################################
+  snpannot:
+    build:
+      context: ../scripts
+      dockerfile: Dockerfile-snpannot
+
+### getGWAScatalog.R #########################################
+  getgwascatalog:
+    build:
+      context: ../scripts
+      dockerfile: Dockerfile-get_gwas_catalog
+
+### geteQTL.R #########################################
+  geteqtl:
+    build:
+      context: ../scripts
+      dockerfile: Dockerfile-geteqtl
