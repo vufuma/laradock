@@ -161,6 +161,7 @@ services:
     networks:
       - frontend
       - backend
+    restart: always
 
 ### PHP-FPM ##############################################
   php-fpm:
@@ -268,6 +269,7 @@ services:
       - workspace
     networks:
       - backend
+    restart: always
 
 ### NGINX Server #########################################
   nginx:
@@ -317,6 +319,7 @@ services:
     #   - "${MYSQL_PORT}:3306"
     networks:
       - backend
+    restart: always
 
 ### phpMyAdmin ###########################################
   phpmyadmin:
@@ -337,6 +340,7 @@ services:
     networks:
       - frontend
       - backend
+    restart: always
 
 ### Jenkins ###################################################
   jenkins:
@@ -354,6 +358,7 @@ services:
     networks:
       - frontend
       - backend
+    restart: always
 
 ### Redis ################################################
   redis:
@@ -365,6 +370,7 @@ services:
     #   - "${REDIS_PORT}:6379"
     networks:
       - backend
+    restart: always
 
 ### Certbot #########################################
   certbot:
@@ -415,6 +421,8 @@ services:
     build:
       context: ../scripts
       dockerfile: Dockerfile-getld
+      args:
+        ANNOVAR_DOWNLOAD_LINK: ${ANNOVAR_DOWNLOAD_LINK}
 
 ### SNPannot.R #########################################
   snpannot:
