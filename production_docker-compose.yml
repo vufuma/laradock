@@ -163,6 +163,10 @@ services:
       - frontend
       - backend
     restart: always
+    profiles:
+      - production
+      - development
+      - all
 
 ### PHP-FPM ##############################################
   php-fpm:
@@ -271,6 +275,10 @@ services:
     networks:
       - backend
     restart: always
+    profiles:
+      - production
+      - development
+      - all
 
 ### NGINX Server #########################################
   nginx:
@@ -300,6 +308,10 @@ services:
     networks:
       - frontend
       - backend
+    profiles:
+      - production
+      - development
+      - all
 
 ### MySQL ################################################
   mysql:
@@ -321,6 +333,10 @@ services:
     networks:
       - backend
     restart: always
+    profiles:
+      - production
+      - development
+      - all
 
 ### phpMyAdmin ###########################################
   phpmyadmin:
@@ -342,10 +358,19 @@ services:
       - frontend
       - backend
     restart: always
+    profiles:
+      - production
+      - development
+      - all
 
 ### Jenkins ###################################################
   jenkins:
-    build: ./jenkins
+    build: 
+      context: ./jenkins
+      args:
+        uid: ${JENKINS_PUID}
+        gid: ${JENKINS_PGID}
+        DOCKER_GID: ${DOCKER_PGID_ON_HOST}
     environment:
       JAVA_OPTS: "-Djava.awt.headless=true"
       JENKINS_OPTS: "--prefix=/jenkins"
@@ -360,6 +385,9 @@ services:
       - frontend
       - backend
     restart: always
+    profiles:
+      - production
+      - all
 
 ### Redis ################################################
   redis:
@@ -372,6 +400,10 @@ services:
     networks:
       - backend
     restart: always
+    profiles:
+      - production
+      - development
+      - all
 
 ### Certbot #########################################
   certbot:
@@ -386,6 +418,9 @@ services:
       - EMAIL="tasos1109@gmail.com"
     networks:
       - frontend
+    profiles:
+      - production
+      - all
 
 ### gwas_file.py #########################################
   gwas_file:
@@ -396,6 +431,9 @@ services:
         PUID: ${JOB_WORKER_PUID}
         PGID: ${JOB_WORKER_PGID}
         USERNAME: ${JOB_WORKER_USERNAME}
+    profiles:
+      - worker
+      - all
 ### allSNPs.py #########################################
   allsnps:
     build:
@@ -405,6 +443,9 @@ services:
         PUID: ${JOB_WORKER_PUID}
         PGID: ${JOB_WORKER_PGID}
         USERNAME: ${JOB_WORKER_USERNAME}
+    profiles:
+      - worker
+      - all
 
 ### magma.py #########################################
   magma:
@@ -415,6 +456,9 @@ services:
         PUID: ${JOB_WORKER_PUID}
         PGID: ${JOB_WORKER_PGID}
         USERNAME: ${JOB_WORKER_USERNAME}
+    profiles: 
+      - worker
+      - all
 
 ### manhattan_filt.py #########################################
   manhattan_filt:
@@ -425,6 +469,9 @@ services:
         PUID: ${JOB_WORKER_PUID}
         PGID: ${JOB_WORKER_PGID}
         USERNAME: ${JOB_WORKER_USERNAME}
+    profiles:
+      - worker
+      - all
 
 ### QQSNPs_filt.py #########################################
   qqsnps_filt:
@@ -435,6 +482,9 @@ services:
         PUID: ${JOB_WORKER_PUID}
         PGID: ${JOB_WORKER_PGID}
         USERNAME: ${JOB_WORKER_USERNAME}
+    profiles:
+      - worker
+      - all   
 
 ### getLd.py #########################################
   getld:
@@ -446,6 +496,9 @@ services:
         PUID: ${JOB_WORKER_PUID}
         PGID: ${JOB_WORKER_PGID}
         USERNAME: ${JOB_WORKER_USERNAME}
+    profiles:
+      - worker
+      - all
 
 ### SNPannot.R #########################################
   snpannot:
@@ -456,6 +509,9 @@ services:
         PUID: ${JOB_WORKER_PUID}
         PGID: ${JOB_WORKER_PGID}
         USERNAME: ${JOB_WORKER_USERNAME}
+    profiles:
+      - worker
+      - all
 
 ### getGWAScatalog.R #########################################
   getgwascatalog:
@@ -466,6 +522,9 @@ services:
         PUID: ${JOB_WORKER_PUID}
         PGID: ${JOB_WORKER_PGID}
         USERNAME: ${JOB_WORKER_USERNAME}
+    profiles:
+      - worker
+      - all
 
 ### geteQTL.py #########################################
   geteqtl:
@@ -476,6 +535,9 @@ services:
         PUID: ${JOB_WORKER_PUID}
         PGID: ${JOB_WORKER_PGID}
         USERNAME: ${JOB_WORKER_USERNAME}
+    profiles:
+      - worker
+      - all
 
 ### getCI.R #########################################
   getci:
@@ -486,6 +548,9 @@ services:
         PUID: ${JOB_WORKER_PUID}
         PGID: ${JOB_WORKER_PGID}
         USERNAME: ${JOB_WORKER_USERNAME}
+    profiles:
+      - worker
+      - all
 
 ### geneMap.R #########################################
   genemap:
@@ -496,6 +561,9 @@ services:
         PUID: ${JOB_WORKER_PUID}
         PGID: ${JOB_WORKER_PGID}
         USERNAME: ${JOB_WORKER_USERNAME}
+    profiles:
+      - worker
+      - all
 
 ### createCircosPlot.py #########################################
   create_circos_plot:
@@ -506,3 +574,6 @@ services:
         PUID: ${JOB_WORKER_PUID}
         PGID: ${JOB_WORKER_PGID}
         USERNAME: ${JOB_WORKER_USERNAME}
+    profiles:
+      - worker
+      - all
