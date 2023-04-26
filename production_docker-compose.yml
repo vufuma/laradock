@@ -137,6 +137,7 @@ services:
         - http_proxy
         - https_proxy
         - no_proxy
+        - DOCKER_PGID_ON_HOST=${DOCKER_PGID_ON_HOST}
     volumes:
       - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
       # - ./php-worker/supervisord.d:/etc/supervisord.d
@@ -391,30 +392,49 @@ services:
     build:
       context: ../scripts
       dockerfile: Dockerfile-gwas_file
-
+      args:
+        PUID: ${JOB_WORKER_PUID}
+        PGID: ${JOB_WORKER_PGID}
+        USERNAME: ${JOB_WORKER_USERNAME}
 ### allSNPs.py #########################################
   allsnps:
     build:
       context: ../scripts
       dockerfile: Dockerfile-allsnps
+      args:
+        PUID: ${JOB_WORKER_PUID}
+        PGID: ${JOB_WORKER_PGID}
+        USERNAME: ${JOB_WORKER_USERNAME}
 
 ### magma.py #########################################
   magma:
     build:
       context: ../scripts
       dockerfile: Dockerfile-magma
+      args:
+        PUID: ${JOB_WORKER_PUID}
+        PGID: ${JOB_WORKER_PGID}
+        USERNAME: ${JOB_WORKER_USERNAME}
 
 ### manhattan_filt.py #########################################
   manhattan_filt:
     build:
       context: ../scripts
       dockerfile: Dockerfile-manhattan_filt
+      args:
+        PUID: ${JOB_WORKER_PUID}
+        PGID: ${JOB_WORKER_PGID}
+        USERNAME: ${JOB_WORKER_USERNAME}
 
 ### QQSNPs_filt.py #########################################
   qqsnps_filt:
     build:
       context: ../scripts
       dockerfile: Dockerfile-qqsnps_filt
+      args:
+        PUID: ${JOB_WORKER_PUID}
+        PGID: ${JOB_WORKER_PGID}
+        USERNAME: ${JOB_WORKER_USERNAME}
 
 ### getLd.py #########################################
   getld:
@@ -423,39 +443,66 @@ services:
       dockerfile: Dockerfile-getld
       args:
         ANNOVAR_DOWNLOAD_LINK: ${ANNOVAR_DOWNLOAD_LINK}
+        PUID: ${JOB_WORKER_PUID}
+        PGID: ${JOB_WORKER_PGID}
+        USERNAME: ${JOB_WORKER_USERNAME}
 
 ### SNPannot.R #########################################
   snpannot:
     build:
       context: ../scripts
       dockerfile: Dockerfile-snpannot
+      args:
+        PUID: ${JOB_WORKER_PUID}
+        PGID: ${JOB_WORKER_PGID}
+        USERNAME: ${JOB_WORKER_USERNAME}
 
 ### getGWAScatalog.R #########################################
   getgwascatalog:
     build:
       context: ../scripts
       dockerfile: Dockerfile-get_gwas_catalog
+      args:
+        PUID: ${JOB_WORKER_PUID}
+        PGID: ${JOB_WORKER_PGID}
+        USERNAME: ${JOB_WORKER_USERNAME}
 
 ### geteQTL.py #########################################
   geteqtl:
     build:
       context: ../scripts
       dockerfile: Dockerfile-geteqtl
+      args:
+        PUID: ${JOB_WORKER_PUID}
+        PGID: ${JOB_WORKER_PGID}
+        USERNAME: ${JOB_WORKER_USERNAME}
 
 ### getCI.R #########################################
   getci:
     build:
       context: ../scripts
       dockerfile: Dockerfile-getci
+      args:
+        PUID: ${JOB_WORKER_PUID}
+        PGID: ${JOB_WORKER_PGID}
+        USERNAME: ${JOB_WORKER_USERNAME}
 
 ### geneMap.R #########################################
   genemap:
     build:
       context: ../scripts
       dockerfile: Dockerfile-genemap
+      args:
+        PUID: ${JOB_WORKER_PUID}
+        PGID: ${JOB_WORKER_PGID}
+        USERNAME: ${JOB_WORKER_USERNAME}
 
 ### createCircosPlot.py #########################################
   create_circos_plot:
     build:
       context: ../scripts
       dockerfile: Dockerfile-create_circos_plot
+      args:
+        PUID: ${JOB_WORKER_PUID}
+        PGID: ${JOB_WORKER_PGID}
+        USERNAME: ${JOB_WORKER_USERNAME}
