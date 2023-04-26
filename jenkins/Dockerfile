@@ -58,10 +58,14 @@ RUN chown -R ${user} "$JENKINS_HOME" /usr/share/jenkins/ref
 # Add jenkins to the correct group
 # see http://stackoverflow.com/questions/42164653/docker-in-docker-permissions-error
 # use "getent group docker | awk -F: '{printf "%d\n", $3}'" command on host to find correct value for gid or simply use 'id'
-ARG DOCKER_GID=998
+ARG DOCKER_PGID_ON_HOST=998
 
-RUN groupadd -g ${DOCKER_GID} docker \
-  && curl -sSL https://get.docker.com/ | sh \
+RUN groupadd -g ${DOCKER_PGID_ON_HOST} docker \
+  && curl -sS https://download.docker.com/linux/static/stable/x86_64/docker-20.10.3.tgz -o /tmp/docker.tar.gz \
+  && tar -xzf /tmp/docker.tar.gz -C /tmp/ \
+  && cp /tmp/docker/docker /usr/local/bin \
+  && chmod +x /usr/local/bin/docker* \
+  && usermod -aG docker ${user} \
   && apt-get -q autoremove \
   && apt-get -q clean -y \
   && rm -rf /var/lib/apt/lists/* /var/cache/apt/*.bin
@@ -69,8 +73,6 @@ RUN groupadd -g ${DOCKER_GID} docker \
 # Install Docker-in-Docker from git@github.com:jpetazzo/dind.git
 # RUN apt-get update -qq && apt-get install -qqy apt-transport-https ca-certificates curl lxc iptables
 # Install Docker from Docker Inc. repositories.
-RUN apt-get install -y curl && curl -sSL https://get.docker.com/ | sh
-RUN usermod -aG docker jenkins
 
 # Install Docker-Compose
 RUN curl -L "https://github.com/docker/compose/releases/download/1.16.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -85,15 +87,18 @@ EXPOSE 50000
 
 ENV COPY_REFERENCE_FILE_LOG $JENKINS_HOME/copy_reference_file.log
 
-USER ${user}
-
+# from a derived Dockerfile, can use `RUN install-plugins.sh active.txt` to setup /usr/share/jenkins/ref/plugins from a support bundle
+COPY install-plugins.sh /usr/local/bin/install-plugins.sh
 COPY jenkins-support /usr/local/bin/jenkins-support
 COPY jenkins.sh /usr/local/bin/jenkins.sh
-ENTRYPOINT ["/bin/tini", "--", "/usr/local/bin/jenkins.sh"]
 
-# from a derived Dockerfile, can use `RUN plugins.sh active.txt` to setup /usr/share/jenkins/ref/plugins from a support bundle
-COPY plugins.sh /usr/local/bin/plugins.sh
-COPY install-plugins.sh /usr/local/bin/install-plugins.sh
+RUN chmod +x /usr/local/bin/install-plugins.sh \
+    && chmod +x /usr/local/bin/jenkins.sh \
+    && chmod +x /usr/local/bin/jenkins-support
+
+USER ${user}
+
+ENTRYPOINT ["/bin/tini", "--", "/usr/local/bin/jenkins.sh"]
 
 # Only need below if we are starting from empty jenkins_home
 ## Copy the RSA keys
@@ -110,5 +115,5 @@ COPY install-plugins.sh /usr/local/bin/install-plugins.sh
 ## ssh-keyscan -H bitbucket.org >> ~/.ssh/known_hosts
 
 # Fix docker permission denied error
-USER root
-RUN usermod -aG docker jenkins
+# USER root
+# RUN usermod -aG docker jenkins
