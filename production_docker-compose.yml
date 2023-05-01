@@ -308,6 +308,7 @@ services:
     networks:
       - frontend
       - backend
+    restart: always
     profiles:
       - production
       - development
