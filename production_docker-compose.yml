@@ -257,18 +257,20 @@ services:
         - http_proxy
         - https_proxy
         - no_proxy
+        - DOCKER_PGID_ON_HOST=${DOCKER_PGID_ON_HOST}
     volumes:
       - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
       - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+      - /var/run/docker.sock:/var/run/docker.sock
     expose:
       - "9000"
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
     environment:
       - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
-      - DOCKER_TLS_VERIFY=1
-      - DOCKER_TLS_CERTDIR=/certs
-      - DOCKER_CERT_PATH=/certs/client
+      # - DOCKER_TLS_VERIFY=1
+      # - DOCKER_TLS_CERTDIR=/certs
+      # - DOCKER_CERT_PATH=/certs/client
       - FAKETIME=${PHP_FPM_FAKETIME}
     depends_on:
       - workspace

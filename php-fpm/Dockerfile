@@ -990,7 +990,7 @@ ARG INSTALL_DOCKER_CLIENT=false
 RUN if [ ${INSTALL_DOCKER_CLIENT} = true ]; then \
     curl -sS https://download.docker.com/linux/static/stable/x86_64/docker-20.10.3.tgz -o /tmp/docker.tar.gz && \
     tar -xzf /tmp/docker.tar.gz -C /tmp/ && \
-    cp /tmp/docker/docker* /usr/local/bin && \
+    cp /tmp/docker/docker /usr/local/bin && \
     chmod +x /usr/local/bin/docker* \
 ;fi
 
@@ -1309,9 +1309,11 @@ ARG PUID=1000
 ENV PUID ${PUID}
 ARG PGID=1000
 ENV PGID ${PGID}
+ARG DOCKER_PGID_ON_HOST=${DOCKER_PGID_ON_HOST}
 
-RUN groupmod -o -g ${PGID} www-data && \
-    usermod -o -u ${PUID} -g www-data www-data
+RUN groupadd -g ${DOCKER_PGID_ON_HOST} docker && \
+    groupmod -o -g ${PGID} www-data && \
+    usermod -o -u ${PUID} -g www-data -G docker www-data
 
 # Adding the faketime library to the preload file needs to be done last
 # otherwise it will preload it for all commands that follow in this file
