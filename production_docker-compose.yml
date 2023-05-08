@@ -581,3 +581,42 @@ services:
     profiles:
       - worker
       - all
+
+### dt.py #########################################
+  dt:
+    build:
+      context: ../scripts
+      dockerfile: Dockerfile-dt
+      args:
+        PUID: ${JOB_WORKER_PUID}
+        PGID: ${JOB_WORKER_PGID}
+        USERNAME: ${JOB_WORKER_USERNAME}
+    profiles:
+      - worker
+      - all
+
+### locusPlot.py #########################################
+  locus_plot:
+    build:
+      context: ../scripts
+      dockerfile: Dockerfile-locusPlot
+      args:
+        PUID: ${JOB_WORKER_PUID}
+        PGID: ${JOB_WORKER_PGID}
+        USERNAME: ${JOB_WORKER_USERNAME}
+    profiles:
+      - worker
+      - all
+
+### annotPlot.py/R #########################################
+  annot_plot:
+    build:
+      context: ../scripts
+      dockerfile: Dockerfile-annotPlot
+      args:
+        PUID: ${JOB_WORKER_PUID}
+        PGID: ${JOB_WORKER_PGID}
+        USERNAME: ${JOB_WORKER_USERNAME}
+    profiles:
+      - worker
+      - all
