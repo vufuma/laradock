@@ -620,3 +620,29 @@ services:
     profiles:
       - worker
       - all
+
+### magma_celltype.R #########################################
+  magma_celltype:
+    build:
+      context: ../scripts
+      dockerfile: Dockerfile-magma_celltype
+      args:
+        PUID: ${JOB_WORKER_PUID}
+        PGID: ${JOB_WORKER_PGID}
+        USERNAME: ${JOB_WORKER_USERNAME}
+    profiles:
+      - worker
+      - all
+
+### celltype_stepPlotData.py/celltype_perDatasetPlotData.py #########################################
+  celltype_plot_data:
+    build:
+      context: ../scripts
+      dockerfile: Dockerfile-celltype_plot_data
+      args:
+        PUID: ${JOB_WORKER_PUID}
+        PGID: ${JOB_WORKER_PGID}
+        USERNAME: ${JOB_WORKER_USERNAME}
+    profiles:
+      - worker
+      - all
