@@ -646,3 +646,16 @@ services:
     profiles:
       - worker
       - all
+
+### g2f #########################################
+  g2f:
+    build:
+      context: ../scripts
+      dockerfile: Dockerfile-g2f
+      args:
+        PUID: ${JOB_WORKER_PUID}
+        PGID: ${JOB_WORKER_PGID}
+        USERNAME: ${JOB_WORKER_USERNAME}
+    profiles:
+      - worker
+      - all
