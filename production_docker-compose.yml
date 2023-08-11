@@ -142,6 +142,7 @@ services:
       - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
       # - ./php-worker/supervisord.d:/etc/supervisord.d
       - /var/run/docker.sock:/var/run/docker.sock
+      - ${FUMA_JOBS_PATH_HOST}:/fuma-jobs
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
     # ports:
@@ -262,6 +263,7 @@ services:
       - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
       - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
       - /var/run/docker.sock:/var/run/docker.sock
+      - ${FUMA_JOBS_PATH_HOST}:/fuma-jobs
     expose:
       - "9000"
     extra_hosts:
