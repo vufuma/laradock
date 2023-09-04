@@ -261,6 +261,7 @@ services:
         - DOCKER_PGID_ON_HOST=${DOCKER_PGID_ON_HOST}
     volumes:
       - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
+      - ./php-fpm/ImageMagick-6/policy.xml:/etc/ImageMagick-6/policy.xml
       - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
       - /var/run/docker.sock:/var/run/docker.sock
       - ${FUMA_JOBS_PATH_HOST}:/fuma-jobs
