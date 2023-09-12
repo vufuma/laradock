@@ -140,7 +140,7 @@ services:
         - DOCKER_PGID_ON_HOST=${DOCKER_PGID_ON_HOST}
     volumes:
       - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
-      # - ./php-worker/supervisord.d:/etc/supervisord.d
+      - ./php-worker/supervisord.d:/etc/supervisord.d
       - /var/run/docker.sock:/var/run/docker.sock
       - ${FUMA_JOBS_PATH_HOST}:/fuma-jobs
     extra_hosts:
