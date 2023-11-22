@@ -146,6 +146,7 @@ services:
       - ./php-worker/supervisord.d:/etc/supervisord.d
       - /var/run/docker.sock:/var/run/docker.sock
       - ${FUMA_JOBS_PATH_HOST}:${FUMA_JOBS_PATH_HOST}
+      - ${FUMA_REF_DATA_PATH_ON_HOST}:${FUMA_REF_DATA_PATH_ON_HOST}
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
     # ports:
@@ -271,6 +272,7 @@ services:
       - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
       - /var/run/docker.sock:/var/run/docker.sock
       - ${FUMA_JOBS_PATH_HOST}:${FUMA_JOBS_PATH_HOST}
+      - ${FUMA_REF_DATA_PATH_ON_HOST}:${FUMA_REF_DATA_PATH_ON_HOST}
     expose:
       - "9000"
     extra_hosts:
