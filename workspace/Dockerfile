@@ -46,14 +46,23 @@ ENV PUID ${PUID}
 ARG PGID=1000
 ENV PGID ${PGID}
 ARG DOCKER_PGID_ON_HOST=${DOCKER_PGID_ON_HOST}
+
+ARG PGIDSCISTOR
+ARG PGIDREF
+ARG PGIDUSR
+
 # always run apt update when start and after add new source list, then clean up at end.
 RUN set -xe; \
     apt-get update -yqq && \
     pecl channel-update pecl.php.net && \
     groupadd -g ${PGID} laradock && \
     groupadd -g ${DOCKER_PGID_ON_HOST} docker && \
+    groupadd --gid ${PGIDSCISTOR} scistor_share_r && \
+    groupadd --gid ${PGIDREF} reference_data_r && \
+    groupadd --gid ${PGIDUSR} users_data_c && \
     useradd -l -u ${PUID} -g laradock -m laradock -G docker_env,docker && \
     usermod -p "*" laradock -s /bin/bash && \
+    usermod -a -G scistor_share_r,reference_data_r,users_data_c laradock && \
     apt-get install -yqq \
       apt-utils \
       #

@@ -138,6 +138,9 @@ services:
         - https_proxy
         - no_proxy
         - DOCKER_PGID_ON_HOST=${DOCKER_PGID_ON_HOST}
+        - PGIDSCISTOR=${JOB_WORKER_PGID_SCISTOR}
+        - PGIDREF=${JOB_WORKER_PGID_REF}
+        - PGIDUSR=${JOB_WORKER_PGID_USR}
     volumes:
       - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
       - ./php-worker/supervisord.d:/etc/supervisord.d
@@ -259,6 +262,9 @@ services:
         - https_proxy
         - no_proxy
         - DOCKER_PGID_ON_HOST=${DOCKER_PGID_ON_HOST}
+        - PGIDSCISTOR=${JOB_WORKER_PGID_SCISTOR}
+        - PGIDREF=${JOB_WORKER_PGID_REF}
+        - PGIDUSR=${JOB_WORKER_PGID_USR}
     volumes:
       - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
       - ./php-fpm/ImageMagick-6/policy.xml:/etc/ImageMagick-6/policy.xml

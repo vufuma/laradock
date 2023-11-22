@@ -1311,9 +1311,17 @@ ARG PGID=1000
 ENV PGID ${PGID}
 ARG DOCKER_PGID_ON_HOST=${DOCKER_PGID_ON_HOST}
 
+ARG PGIDSCISTOR
+ARG PGIDREF
+ARG PGIDUSR
+
 RUN groupadd -g ${DOCKER_PGID_ON_HOST} docker && \
+    groupadd --gid ${PGIDSCISTOR} scistor_share_r && \
+    groupadd --gid ${PGIDREF} reference_data_r && \
+    groupadd --gid ${PGIDUSR} users_data_c && \
     groupmod -o -g ${PGID} www-data && \
-    usermod -o -u ${PUID} -g www-data -G docker www-data
+    usermod -o -u ${PUID} -g www-data -G docker www-data && \
+    usermod -a -G scistor_share_r,reference_data_r,users_data_c www-data
 
 # Adding the faketime library to the preload file needs to be done last
 # otherwise it will preload it for all commands that follow in this file
