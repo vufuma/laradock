@@ -760,3 +760,21 @@ services:
     profiles:
       - worker
       - all
+
+### g2f-r #########################################
+  g2f_r:
+    build:
+      context: ../scripts
+      dockerfile: Dockerfile-g2f-r
+      args:
+        PUID: ${JOB_WORKER_PUID}
+        PGID: ${JOB_WORKER_PGID}
+        
+        PGIDSCISTOR: ${JOB_WORKER_PGID_SCISTOR}
+        PGIDREF: ${JOB_WORKER_PGID_REF}
+        PGIDUSR: ${JOB_WORKER_PGID_USR}
+
+        USERNAME: ${JOB_WORKER_USERNAME}
+    profiles:
+      - worker
+      - all
