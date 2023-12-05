@@ -778,3 +778,24 @@ services:
     profiles:
       - worker
       - all
+
+### jobs_transfer #########################################
+  jobs_transfer:
+    build:
+      context: ../database/old_db_migration_to_mysql
+      dockerfile: Dockerfile-jobs_transfer
+      args:
+        PUID: ${JOB_WORKER_PUID}
+        PGID: ${JOB_WORKER_PGID}
+        
+        PGIDSCISTOR: ${JOB_WORKER_PGID_SCISTOR}
+        PGIDREF: ${JOB_WORKER_PGID_REF}
+        PGIDUSR: ${JOB_WORKER_PGID_USR}
+
+        USERNAME: ${JOB_WORKER_USERNAME}
+    networks:
+      - backend
+    volumes:
+      - /new_data:/new_data
+      - /data:/data
+      - /var/www/html/FUMA-webapp/database/old_db_migration_to_mysql/results:/app/results
