@@ -61,7 +61,7 @@ RUN chown -R ${user} "$JENKINS_HOME" /usr/share/jenkins/ref
 ARG DOCKER_PGID_ON_HOST=998
 
 RUN groupadd -g ${DOCKER_PGID_ON_HOST} docker \
-  && curl -sS https://download.docker.com/linux/static/stable/x86_64/docker-20.10.3.tgz -o /tmp/docker.tar.gz \
+  && curl -sS https://download.docker.com/linux/static/stable/x86_64/docker-25.0.4.tgz -o /tmp/docker.tar.gz \
   && tar -xzf /tmp/docker.tar.gz -C /tmp/ \
   && cp /tmp/docker/docker /usr/local/bin \
   && chmod +x /usr/local/bin/docker* \
