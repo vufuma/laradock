@@ -1,8 +1,10 @@
 [program:laravel-worker]
 process_name=%(program_name)s_%(process_num)02d
-command=php /var/www/artisan queue:work --sleep=3 --tries=3
+command=php /var/www/artisan queue:work -v --queue=high,default --timeout=3600
 autostart=true
 autorestart=true
-numprocs=8
+numprocs=2
 user=laradock
 redirect_stderr=true
+stderr_logfile=/var/www/laradock-FUMA/logs/supervisor/worker.err.log
+stdout_logfile=/var/www/laradock-FUMA/logs/supervisor/worker.log
