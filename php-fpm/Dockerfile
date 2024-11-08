@@ -816,6 +816,22 @@ RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
     php -m | grep -q 'imagick' \
 ;fi
 
+
+###########################################################################
+# libvips:
+###########################################################################
+
+ARG INSTALL_LIBVIPS=false
+RUN if [ ${INSTALL_LIBVIPS} = true ]; then \
+  apt-get update -yqq && \
+  apt-get install -yqq libvips-dev libvips42 && \
+  # link the vips lib in the path
+  ln -s /usr/lib/x86_64-linux-gnu/libvips.so.42 /usr/lib/libvips.so.42 && \
+  # Use php-vips-ext - does not require ffi
+  pecl install vips && \
+  echo 'extension=vips' > /usr/local/etc/php/conf.d/php-ext-vips.ini \
+;fi
+
 ###########################################################################
 # SMB:
 ###########################################################################
