@@ -722,9 +722,9 @@ USER laradock
 ###########################################################################
 
 # Check if NVM needs to be installed
-ARG NODE_VERSION=stable
+ARG NODE_VERSION=node
 ENV NODE_VERSION ${NODE_VERSION}
-ARG INSTALL_NODE=true
+ARG INSTALL_NODE=false
 ARG INSTALL_NPM_GULP=false
 ARG INSTALL_NPM_BOWER=false
 ARG INSTALL_NPM_VUE_CLI=false
@@ -811,19 +811,6 @@ RUN if [ ${NPM_REGISTRY} ]; then \
 COPY ./.npmrc /root/.npmrc
 COPY ./.npmrc /home/laradock/.npmrc
 
-###########################################################################
-# Nodejs:
-###########################################################################
-USER root
-
-ARG INSTALL_NODE=false
-ARG NODEJS_VERSION=${NODEJS_VERSION}
-
-RUN if [ ${INSTALL_NODE} = true ]; then \
-    curl -sL https://deb.nodesource.com/setup_${NODEJS_VERSION}.x | bash  \
-    && apt-get clean && apt-get update \
-    && apt-get -yqq install nodejs \
-;fi
 
 
 ###########################################################################
