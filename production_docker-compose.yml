@@ -132,8 +132,6 @@ services:
         - INSTALL_MEMCACHED=${WORKSPACE_INSTALL_MEMCACHED}
         - INSTALL_EVENT=${WORKSPACE_INSTALL_EVENT}
         - INSTALL_DNSUTILS=${WORKSPACE_INSTALL_DNSUTILS}
-        - INSTALL_NODE=true
-        - NODEJS_VERSION=16
         - http_proxy
         - https_proxy
         - no_proxy
