@@ -51,12 +51,14 @@ ARG PGIDSCISTOR
 ARG PGIDREF
 ARG PGIDUSR
 
+RUN apt remove polkitd -y; userdel polkitd; groupdel polkitd; echo $(getent group 997)
+
 # always run apt update when start and after add new source list, then clean up at end.
 RUN set -xe; \
     apt-get update -yqq --allow-releaseinfo-change && \
     pecl channel-update pecl.php.net && \
     groupadd -g ${PGID} laradock && \
-    groupadd -g ${DOCKER_PGID_ON_HOST} docker && \
+    groupadd --gid ${DOCKER_PGID_ON_HOST} docker && \
     groupadd --gid ${PGIDSCISTOR} scistor_share_r && \
     groupadd --gid ${PGIDREF} reference_data_r && \
     groupadd --gid ${PGIDUSR} users_data_c && \
@@ -82,6 +84,8 @@ RUN set -xe; \
       # nasm
       nasm && \
       php -m | grep -q 'zip'
+
+RUN apt-get install polkitd -y
 
 #
 #--------------------------------------------------------------------------
@@ -1188,12 +1192,13 @@ RUN if [ ${INSTALL_PYTHON} = true ]; then \
 ARG INSTALL_PYTHON3=false
 
 RUN if [ ${INSTALL_PYTHON3} = true ]; then \
-  apt-get -y install python3 python3-dev build-essential  \
-  && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py  \
-  && python3 get-pip.py  \
-  && rm get-pip.py  \
-  && python3 -m pip install --upgrade --force-reinstall pip  \
-  && python3 -m pip install --upgrade virtualenv \
+  apt-get -y install python3 python3-dev python3-pip python3-venv build-essential python-is-python3 \
+  #&& curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py  \
+  #&& python3 get-pip.py  \
+  #&& rm get-pip.py  \
+  #&& apt-get install pipx -y \
+  #&& python3 -m pip install --upgrade --force-reinstall pip \
+  #&& python3 -m pip install --upgrade virtualenv \
 ;fi
 
 ###########################################################################
@@ -1217,8 +1222,8 @@ RUN if [ ${INSTALL_POWERLINE} = true ]; then \
 ARG INSTALL_SUPERVISOR=false
 
 RUN if [ ${INSTALL_SUPERVISOR} = true ]; then \
-    if [ ${INSTALL_PYTHON} = true ]; then \
-    python -m pip install --upgrade supervisor && \
+    if [ ${INSTALL_PYTHON3} = true ]; then \
+    python -m pip install --upgrade supervisor --break-system-packages && \
     echo_supervisord_conf > /etc/supervisord.conf && \
     sed -i 's/\;\[include\]/\[include\]/g' /etc/supervisord.conf && \
     sed -i 's/\;files\s.*/files = supervisord.d\/*.conf/g' /etc/supervisord.conf \
